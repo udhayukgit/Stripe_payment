@@ -21,8 +21,12 @@ Including another URLconf
 # ]
 from django.contrib import admin
 from django.urls import include, path
+from purchase import views
+
 
 urlpatterns = [
-    path('purchase/', include('purchase.urls')),
+    
     path('admin/', admin.site.urls),
+    path('', include('purchase.urls')),
+    #path(r'^$', views.index, name='index'),
 ]
