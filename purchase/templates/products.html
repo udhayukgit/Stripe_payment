@@ -8,6 +8,9 @@
 <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.3.2/js/dataTables.fixedColumns.min.js"></script>
 <style type="text/css">
     /* Ensure that the demo table scrolls */
+    table, th, td {
+  border: 1px solid black;
+}
     th, td { white-space: nowrap; }
     div.dataTables_wrapper {
         width: 800px;
@@ -38,9 +41,23 @@
 
         </tbody>
     </table>
+    <table class="stripe row-border order-column" style="width:60%">
+    
+        <td>Response</td>
+        <td><div id="response"> </td>
+        
+      
+    </table>
 </body>
 
+
 </html>
+
+
+<div id="response"> 
+
+<p id="clear"></p> 
+</div>
 <script type="text/javascript">
     
     function make_charge_stripe(amount){
@@ -49,7 +66,7 @@
                 'url' :  'make_charge_stripe/'+amount ,
                 'type' : 'GET',
                 beforeSend: function() {
-                            alert('please wait couple of Seconds, alert Json response when Stripe Payment done ',);
+                            alert('please wait couple of Seconds, Get Json response when Stripe Payment done ',);
                         },
                 error: function() {
                             alert('Error');
@@ -58,7 +75,10 @@
                   console.log(data)
                   if (data.status == "true") {
                     //alert(data.message.id);
-                    alert(JSON.stringify(data.message));
+                    //alert(JSON.stringify(data.message));
+                    $("#response").text(JSON.stringify(data.message));
+
+
                   }
                 }
               });
@@ -67,6 +87,7 @@
     }
 
     $(document).ready(function() {
+    $("#clear").hide();
     var table = $('#example').DataTable( {
         scrollY:        "300px",
         //scrollX:        true,
