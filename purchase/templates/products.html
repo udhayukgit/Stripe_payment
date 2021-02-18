@@ -1,0 +1,81 @@
+</!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.2/css/fixedColumns.dataTables.min.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.3.2/js/dataTables.fixedColumns.min.js"></script>
+<style type="text/css">
+    /* Ensure that the demo table scrolls */
+    th, td { white-space: nowrap; }
+    div.dataTables_wrapper {
+        width: 800px;
+        margin: 0 auto;
+    }
+</style>
+</head>
+<body>
+<table id="example" class="stripe row-border order-column" style="width:100%">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Buy</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Redmi</td>
+                <td>7000</td>
+                <td><button type="button" class="btn btn-primary" onclick="make_charge_stripe(7000)" >Buy</button></td>
+            </tr>
+            <tr>
+                <td>Samsung</td>
+                <td>4000</td>
+                <td><button type="button" onclick="make_charge_stripe(4000)" class="btn btn-primary">Buy</button></td>
+            </tr>
+
+        </tbody>
+    </table>
+</body>
+
+</html>
+<script type="text/javascript">
+    
+    function make_charge_stripe(amount){
+
+            $.ajax({
+                'url' :  'make_charge_stripe/'+amount ,
+                'type' : 'GET',
+                beforeSend: function() {
+                            alert('please wait couple of Seconds, alert Json response when Stripe Payment done ',);
+                        },
+                error: function() {
+                            alert('Error');
+                        },
+                'success' : function(data) {
+                  console.log(data)
+                  if (data.status == "true") {
+                    //alert(data.message.id);
+                    alert(JSON.stringify(data.message));
+                  }
+                }
+              });
+
+       
+    }
+
+    $(document).ready(function() {
+    var table = $('#example').DataTable( {
+        scrollY:        "300px",
+        //scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+        fixedColumns:   {
+            leftColumns: 1,
+            rightColumns: 1
+        }
+    } );
+} );
+</script>
